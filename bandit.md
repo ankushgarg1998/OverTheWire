@@ -232,51 +232,150 @@ cat /tmp/ankush-level-24
 
 Level 24 `UoMYTrfrBFHyQXmg6gzctqAwOmw1IohZ`
 ```shell
+cd /tmp
+nano aa.sh
+# We need a script that outputs all entries. So we create a script to make that script.
+# The first line only has 6 numbers because server gives a timeout if we bruteforce all at once.
+# So we do it in two segments ([0, 1, 2, 3, 4, 5] AND [6, 7, 8, 9])
+for a in 0 1 2 3 4 5
+        do
+        for b in 0 1 2 3 4 5 6 7 8 9
+                do
+                for c in 0 1 2 3 4 5 6 7 8 9
+                        do
+                        for d in 0 1 2 3 4 5 6 7 8 9
+                                do
+                                echo "echo \"UoMYTrfrBFHyQXmg6gzctqAwOmw1IohZ $a$b$c$d\""
+                                done
+                        done
+                done
+        done
+# ---
+chmod 777 aa.sh
+# Output of this script (aa.sh) is the script we actually need (testdata.sh)
+./aa.sh > testdata.sh
+chmod 777 testdata.sh
 
+# execute the script piped to the netcat connection and get the output in a file (result)
+./testdata | nc localhost 30002 > result
+
+# Find the output by grepping and printing a few extra lines.
+grep -n -A 3 "Correct" result
 ```
 
-Level 25 ``
+Level 25 `uNG9O58gUE7snukf3bvZ0rxhtnjzSGzG`
 ```shell
-
+cat bandit26.privatekey
 ```
 
-Level 26 ``
+Level 26 `5czgV9L3Xx8JPOyRbXh6lQbmIOWvPT6Z`
 ```shell
+cat /etc/passwd
+# This file show that bandit26's shell is some showtext file. So we open that.
+cat /usr/bin/showtext
+# Here a more command is being used. And then exit is executed to throw us out.
+# So we have to stop the execution at the more command, before exit.
+# For this we make terminal window extremely strong heighted so that it stops at more.
+# Yes, this is actually the way to solve this.
 
+# Now we press v to open this file in vim
+# Vim has a command :e that opens any file. So to get the passwd of this level we open bandit26
+:e /etc/bandit_pass/bandit26
+
+# Vim also has a command :set so we use it to change the shell
+:set shell=/bin/bash
+
+# Vim also has a command to start :shell
+:shell
+
+# -------------------------------------------------
+# Now we can actually start looking for level 27's password
+ls -la
+./bandit27-do cat /etc/bandit_pass/bandit27
 ```
 
-Level 27 ``
+Level 27 `3ba3118a22e93127a4ed485be72ef5ea`
 ```shell
-
+cd /tmp
+git clone ssh://bandit27-git@localhost/home/bandit27-git/repo repo-ankush
+cd repo-ankush
+cat README
 ```
 
-Level 28 ``
+Level 28 `0ef186ac70e04ea33b4c1853d2526fa2`
 ```shell
-
+cd /tmp
+git clone ssh://bandit28-git@localhost/home/bandit28-git/repo repo-ankush-2
+cd repo-ankush-2
+git log
+git checkout 186a1038cc54d1358d42d468cdc8e3cc28a93fcb
+git status
+cat README.md
 ```
 
-Level 29 ``
+Level 29 `bbc96594b4e001778eee9975372716b2`
 ```shell
-
+cd /tmp
+git clone ssh://bandit29-git@localhost/home/bandit29-git/repo repo-ankush-3
+cd repo-ankush-3
+git log
+git checkout 186a1038cc54d1358d42d468cdc8e3cc28a93fcb
+# Found Nothing.
+git checkout master
+git branch
+git branch -r
+git checkout dev
+cat README.md
 ```
 
-Level 30 ``
+Level 30 `5b90576bedb2cc04c86a9e924ce42faf`
 ```shell
-
+cd /tmp
+git clone ssh://bandit30-git@localhost/home/bandit30-git/repo repo-ankush-5
+cd repo-ankush-5
+git tag
+# There's a tag called secret.
+git show secret
 ```
 
-Level 31 ``
+Level 31 `47e603bb428404d265f59c42920d81e5`
 ```shell
-
+cd /tmp
+git clone ssh://bandit31-git@localhost/home/bandit31-git/repo repo-ankush-6
+cd repo-ankush-6
+cat README.md
+nano key.txt
+# "May I come in?"
+git add .
+git status
+# File doesn't show up
+git add key.txt
+# The following paths are ignored by one of your .gitignore files:
+# key.txt
+# Use -f if you really want to add them.
+nano .gitignore
+# remove *.txt
+git add .
+git commit -m "asdf"
+git push origin master
 ```
 
-Level 32 ``
+Level 32 `56a9bf19c63d650ce78e6ec0354ee45e`
 ```shell
-
+ls
+# sh: 1: LS: not found
+cat readme
+# sh: 1: CAT: not found
+# So we see, this is the sh shell but every commmand we type is being converted to UPPERCASE.
+# There is a special variable $0 which is equal to shell (sh or bash etc). So we execute that variable.
+$0
+# Now the shell is sh
+ls -la
+cat /etc/bandit_pass/bandit33
+# can also convert the shell to bash using "/bin/bash"
 ```
 
-Level 33 ``
-```shell
+Level 33 `c9c3199ddf4121b10cf581a98d51caee`
 
-```
-
+FIN.
+<hr>
