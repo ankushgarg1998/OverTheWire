@@ -7,71 +7,71 @@ ssh bandit0@bandit.labs.overthewire.org -p 2220
 
 
 
-Level 0
+### Level0
 ```shell
 cat readme
 ```
 
-Level 1 `boJ9jbbUNNfktd78OOpsqOltutMc3MY1`
+### Level1 `boJ9jbbUNNfktd78OOpsqOltutMc3MY1`
 ```shell
 cat ./-
 ```
 
-Level 2 `CV1DtqXWVFXTvM2F0k09SHz0YwRINYA9`
+### Level2 `CV1DtqXWVFXTvM2F0k09SHz0YwRINYA9`
 ```shell
 cat spaces\ in\ this\ filename
 ```
 
-Level 3 `UmHadQclWmgdLOKQ3YNgjWxGoRMb5luK`
+### Level3 `UmHadQclWmgdLOKQ3YNgjWxGoRMb5luK`
 ```shell
 cd inhere
 ls -a
 cat .hidden
 ```
 
-Level 4 `pIwrPrtPN36QITSp3EQaw936yaFoFgAB`
+### Level4 `pIwrPrtPN36QITSp3EQaw936yaFoFgAB`
 ```shell
 cd inhere
 find . -type f -exec cat {} \; -exec echo -e "\n\n" \;
 ```
 
-Level 5 `koReBOKuIDDepwhWk7jZC0RTdopnAYKh`
+### Level5 `koReBOKuIDDepwhWk7jZC0RTdopnAYKh`
 ```shell
 cd inhere
 find . -type f -size 1033c -exec cat {} \;
 ```
 
-Level 6 `DXjZPULLxYr17uwoI01bNLQbtFemEgo7`
+### Level6 `DXjZPULLxYr17uwoI01bNLQbtFemEgo7`
 ```shell
 find / -type f -user bandit7 -exec cat {} \;
 ```
 
-Level 7 `HKBPTKQnIay4Fw76bEy8PVxKEDQRKTzs`
+### Level7 `HKBPTKQnIay4Fw76bEy8PVxKEDQRKTzs`
 ```shell
 grep "millionth" data.txt
 ```
 
-Level 8 `cvX2JJa4CFALtqS87jk27qwqGhBM9plV`
+### Level8 `cvX2JJa4CFALtqS87jk27qwqGhBM9plV`
 ```shell
 sort data.txt | uniq -c
 ```
 
-Level 9 `UsvVyFSfZZWbi6wgC7dAFyFuR6jQQUhR`
+### Level9 `UsvVyFSfZZWbi6wgC7dAFyFuR6jQQUhR`
 ```shell
 cat data.txt | tr -d '\000' | grep "="
 ```
 
-Level 10 `truKLdjsbJ5g7yyJ2X2R0o3a5HQJFuLk`
+### Level10 `truKLdjsbJ5g7yyJ2X2R0o3a5HQJFuLk`
 ```shell
 base64 -d data.txt
 ```
 
-Level 11 `IFukwKGsFW8MOq3IRFqrxE1hxTNEbUPR`
+### Level11 `IFukwKGsFW8MOq3IRFqrxE1hxTNEbUPR`
 ```shell
 cat data.txt | tr 'N-ZA-Mn-za-m' 'A-Za-z'
 ```
 
-Level 12 `5Te8Y4drgCRfCx8ugdwuEX8KFC6k2EUu`
+### Level12 `5Te8Y4drgCRfCx8ugdwuEX8KFC6k2EUu`
 ```shell
 mkdir /tmp/ankush123
 mv data.txt /tmp/ankush123/asdf.txt
@@ -102,28 +102,28 @@ gzip -d data8.gz
 cat data8
 ```
 
-Level 13 `8ZjyCRiBWFYkneahHwxCv3wb2a1ORpYL`
+### Level13 `8ZjyCRiBWFYkneahHwxCv3wb2a1ORpYL`
 ```shell
 cat ssh.privatekey
 ```
 
 This level gives a private key instead of a password for the next level (level-14).
 
-Use this private key to log into Level 14 and get the password of level 14 from /etc/bandit_pass/bandit14
+Use this private key to log into level 14 and get the password of level 14 from /etc/bandit_pass/bandit14
 
-Level 14 `4wcYUJFw0k0XLShlDzztnTBHiqxU3b3e`
+### Level14 `4wcYUJFw0k0XLShlDzztnTBHiqxU3b3e`
 ```shell
 telnet localhost 30000
 # paste this level's password
 ```
 
-Level 15 `BfMYroe26WYalil77FoDi9qh59eK5xNr`
+### Level15 `BfMYroe26WYalil77FoDi9qh59eK5xNr`
 ```shell
 openssl s_client -connect localhost:30001
 # paste this level's password
 ```
 
-Level 16 `cluFn7wTiGryunymYOu4RcffSxQluehd`
+### Level16 `cluFn7wTiGryunymYOu4RcffSxQluehd`
 ```shell
 nmap -vv localhost -p 31000-32000
 # try making an ssl connection on both ports
@@ -133,24 +133,24 @@ openssl s_client -connect localhost:31790
 # It returns a private key
 ```
 
-Level 17 `{private-key}`
+### Level17 `{private-key}`
 ```shell
 diff passwords.new passwords.old
 ```
 
-Level 18 `kfBf3eYk5BPBRzwjqutbbfE887SVc5Yd`
+### Level18 `kfBf3eYk5BPBRzwjqutbbfE887SVc5Yd`
 ```shell
 #Run this on your own machine
 scp -P 2220 bandit18@bandit.labs.overthewire.org:/home/bandit18/readme ./
 cat readme
 ```
 
-Level 19 `IueksS7Ubh8G3DCwVzrTd8rAVOwq3M5x`
+### Level19 `IueksS7Ubh8G3DCwVzrTd8rAVOwq3M5x`
 ```shell
 ./bandit20-do cat /etc/bandit_pass/bandit20
 ```
 
-Level 20 `GbKksEFF4yrVs6il55v6gwY5aVje5f0j`
+### Level20 `GbKksEFF4yrVs6il55v6gwY5aVje5f0j`
 ```shell
 # open multiple tabs with tmux
 tmux
@@ -164,7 +164,7 @@ nc -l -p 8888
 # Paste to current password
 ```
 
-Level 21 `gE269g2h3mw3pwgrj0Ha9Uoqen1c9DGr`
+### Level21 `gE269g2h3mw3pwgrj0Ha9Uoqen1c9DGr`
 ```shell
 cd /etc/cron.d/
 ls -la
@@ -177,7 +177,7 @@ cat /usr/bin/cronjob_bandit22.sh
 cat /tmp/t7O6lds9S0RqQh9aMcz6ShpAoZKF7fgv
 ```
 
-Level 22 `Yk7owGAcWjwMVRwrTesJEwB7WVOiILLI`
+### Level22 `Yk7owGAcWjwMVRwrTesJEwB7WVOiILLI`
 ```shell
 cd /etc/cron.d/
 ls -la
@@ -193,7 +193,7 @@ echo I am user bandit23 | md5sum | cut -d ' ' -f 1
 cat /tmp/8ca319486bfbbc3663ea0fbe81326349
 ```
 
-Level 23 `jc1udXuA1tiHqjIsL8yaapX5XIAI6i0n`
+### Level23 `jc1udXuA1tiHqjIsL8yaapX5XIAI6i0n`
 ```shell
 cd /etc/cron.d/
 ls -la
@@ -230,7 +230,7 @@ chmod 777 ankush123.sh
 cat /tmp/ankush-level-24
 ```
 
-Level 24 `UoMYTrfrBFHyQXmg6gzctqAwOmw1IohZ`
+### Level24 `UoMYTrfrBFHyQXmg6gzctqAwOmw1IohZ`
 ```shell
 cd /tmp
 nano aa.sh
@@ -263,12 +263,12 @@ chmod 777 testdata.sh
 grep -n -A 3 "Correct" result
 ```
 
-Level 25 `uNG9O58gUE7snukf3bvZ0rxhtnjzSGzG`
+### Level25 `uNG9O58gUE7snukf3bvZ0rxhtnjzSGzG`
 ```shell
 cat bandit26.privatekey
 ```
 
-Level 26 `5czgV9L3Xx8JPOyRbXh6lQbmIOWvPT6Z`
+### Level26 `5czgV9L3Xx8JPOyRbXh6lQbmIOWvPT6Z`
 ```shell
 cat /etc/passwd
 # This file show that bandit26's shell is some showtext file. So we open that.
@@ -294,7 +294,7 @@ ls -la
 ./bandit27-do cat /etc/bandit_pass/bandit27
 ```
 
-Level 27 `3ba3118a22e93127a4ed485be72ef5ea`
+### Level27 `3ba3118a22e93127a4ed485be72ef5ea`
 ```shell
 cd /tmp
 git clone ssh://bandit27-git@localhost/home/bandit27-git/repo repo-ankush
@@ -302,7 +302,7 @@ cd repo-ankush
 cat README
 ```
 
-Level 28 `0ef186ac70e04ea33b4c1853d2526fa2`
+### Level28 `0ef186ac70e04ea33b4c1853d2526fa2`
 ```shell
 cd /tmp
 git clone ssh://bandit28-git@localhost/home/bandit28-git/repo repo-ankush-2
@@ -313,7 +313,7 @@ git status
 cat README.md
 ```
 
-Level 29 `bbc96594b4e001778eee9975372716b2`
+### Level29 `bbc96594b4e001778eee9975372716b2`
 ```shell
 cd /tmp
 git clone ssh://bandit29-git@localhost/home/bandit29-git/repo repo-ankush-3
@@ -328,7 +328,7 @@ git checkout dev
 cat README.md
 ```
 
-Level 30 `5b90576bedb2cc04c86a9e924ce42faf`
+### Level30 `5b90576bedb2cc04c86a9e924ce42faf`
 ```shell
 cd /tmp
 git clone ssh://bandit30-git@localhost/home/bandit30-git/repo repo-ankush-5
@@ -338,7 +338,7 @@ git tag
 git show secret
 ```
 
-Level 31 `47e603bb428404d265f59c42920d81e5`
+### Level31 `47e603bb428404d265f59c42920d81e5`
 ```shell
 cd /tmp
 git clone ssh://bandit31-git@localhost/home/bandit31-git/repo repo-ankush-6
@@ -360,7 +360,7 @@ git commit -m "asdf"
 git push origin master
 ```
 
-Level 32 `56a9bf19c63d650ce78e6ec0354ee45e`
+### Level32 `56a9bf19c63d650ce78e6ec0354ee45e`
 ```shell
 ls
 # sh: 1: LS: not found
@@ -375,7 +375,7 @@ cat /etc/bandit_pass/bandit33
 # can also convert the shell to bash using "/bin/bash"
 ```
 
-Level 33 `c9c3199ddf4121b10cf581a98d51caee`
+### Level33 `c9c3199ddf4121b10cf581a98d51caee`
 
 FIN.
 <hr>
