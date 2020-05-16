@@ -978,11 +978,39 @@ app.listen(port, () => console.log(`Example app listening at http://localhost:${
 ```
 
 ### Level 20 `eofm3Wsshxc5bwtVnEuGIlr7ivb9KABF`
+- Here's what we know by reading the code:
+    - So basically there's a file that gets created corresponding to a session that stores all the variables in the session.
+    - If a file for a particular sessionId already exists then the session variables are loaded from that file.
+    - And if $_SESSION has a key:value admin:1, then we get our password.
+- So let's backtrack. 
+    - We need the $_SESSION to have a key:value admin:1.
+    - The $_SESSION reads it's variables from a file. (if it already exists)
+    - We can create such files. But we can only add the property name.
+    - So somehow we need to use this write to fill in the admin:1 key:value.
+- Lucky for us, The file is being stored in a line-by-line, space-separated format. So if we pass `random_name\nadmin 1` to the name variable. Then it'll store this value in the file such that the file will look like this:
+```
+name random_name
+admin 1
+```
+- Which when read, will read 2 separate variables.
+- So to do this, call the url `http://natas20.natas.labs.overthewire.org/?debug=1&name=random_name%0Aadmin%201`. Here `%0A` is the URL encoded character for new-line (\n).
+- This would have saved the file. 
+- Now we reload the same URL. And this time the same file would have been read. So we get the password.
 
-### Level 21 ``
--
+### Level 21 `IFekPyrQXftziDEsUr3x21sYuahypdgJ`
+- It is given that the two pages a colocated. Which means that they can have a common session pool. So it is safe to assume that we can make changes in one page's session and then these changes will be visible in the other page (if we are able to open the same session in the other page as well).
+- Opening the same session in the other page is easy. Just need to copy the PHPSESSID from the cookies of one page to another.
+- Now the main page, which can show us the password we need, is pretty solid, nothing we can do here.
+- The css-experimenter page however, is doing a lot of stuff. However only the first 4 lines of the PHP code are all we need to focus on.
+- They're essentially setting all the values we submit in the form to the `$_SESSION` array.
+- So we can simply open the elements tab of the Chrome Dev tools, add a input tag (in the form) there:
+```html
+<input name="admin" value="1">
+```
+- Then simply click 'update' on the UI, this will trigger the submit and add the `{admin=1}` to the `$_SESSION` as we needed.
+- Now just open this session in the main page (by copying the PHPSESSID value from the cookies of this page to that of the main page) and password will be visible.
 
-### Level 21 ``
+### Level 22 `chG9fbe1Tq2eWVMgjYYD1MsfIvN461kJ`
 -
 
 ### Level 21 ``
