@@ -1011,18 +1011,40 @@ admin 1
 - Now just open this session in the main page (by copying the PHPSESSID value from the cookies of this page to that of the main page) and password will be visible.
 
 ### Level 22 `chG9fbe1Tq2eWVMgjYYD1MsfIvN461kJ`
--
+- The code is simple this time, it simply says that if your GET request has a parameter `revelio`, then it'll show the password.
+- But the catch is that it is setting a Response Header "Location: /". Which makes the browser redirect the page back to root as soon as response is received.
+- So we open postman, turn of the "Automatically follow redirects" option and then send the request with revelio parameter in postman.
+- We get a 302 response but in the response body, there's the password.
 
-### Level 21 ``
--
+### Level 23 `D0vlad33nQF0Hz2EP255TP5wSW9ZsRSE`
+- All we need to do is to enter the nested if block which has two ANDed conditions.
+- The `strstr($haystack, $needle)` function part will easily be true if our string contains 'iloveyou'.
+- The second part is a string comparision. String comparisions in PHP are lexicographic. So `"120" < "20" < "3"`.
+- Therefore we enter `21iloveyoubro` in the input field and submit.
 
-### Level 21 ``
--
+### Level 24 `OsRmXFguozKpTZZ5X14zNO43379LZveg`
+- Since there is a NOT (!) operator in the nested if, we need the `strcmp($str1, $str2)` return value to be exactly 0 (zero), which is only possible if both `$str1` and `$str2` are equal (Not really though).
+- Actually the strcmp will return `NULL` if `$str1` is array() (it is safe to assume that `$str2` is string) with a warning. And in PHP `!NULL = true`.
+- So in the url we change `/?passwd=ankush` to `/?passwd[]=ankush`.
+- And there's our our password, under the warning.
 
-### Level 21 ``
--
+### Level 25 `GHF6X7YwACaYYssHVY05cFq83hRktl4c`
+- So there's no way we're embedding `natas_webpass` in the URL. But we can bypass the `../` filter. By simply using `....//` in place of `../`.
+- Also there's an unsanitized HTTP_USER_AGENT header being directly logged into the log file in logRequest function.
+- So we can embedd php code in that header which will then get inside the log file. And then we can open the log file from index.php as a language file.
+- So we hit this URL:
+```
+http://natas25.natas.labs.overthewire.org/?lang=....//....//....//....//....//var/www/natas/natas25/logs/natas25_spc3j918a4fviflemtaf8205e2.log
+```
+- With the following Headers:
+```
+User-Agent: <?php global $__MSG; $__MSG=file_get_contents("/etc/natas_webpass/natas26") ?>
+Cookie: [copied from browser] [should be the same as the log file in the URL]
+Authorization: [copied from browser]
+```
+- And there's our password for natas26.
 
-### Level 21 ``
+### Level 26 `oGgWAJ7zcGT28vYazGo4rkhOPDhBu34T`
 -
 
 ### Level 21 ``
